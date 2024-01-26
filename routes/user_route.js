@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { register, login } = require('../controllers/user_controller');
+const { register, login, updateUser, getUser } = require('../controllers/user_controller');
+const { uploadMiddleware } = require('../middlewares/uploader_middleware');
+const { authenticateToken } = require('../middlewares/auth_middleware')
 
-// Register route
 router.post('/register', register);
-
-// Login route
 router.post('/login', login);
+router.put('/:id', authenticateToken, uploadMiddleware, updateUser);
+router.get('/:id', authenticateToken, getUser );
 
 module.exports = router;

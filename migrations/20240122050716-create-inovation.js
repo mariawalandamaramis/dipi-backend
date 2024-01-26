@@ -2,65 +2,41 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Inovasi', {
+    await queryInterface.createTable('Inovations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nama_inovasi: {
+      inovation_name: {
         type: Sequelize.STRING
       },
-      deskripsi_singkat: {
+      description: {
         type: Sequelize.TEXT
       },
-      kota: {
-        type: Sequelize.STRING
-      },
-      provinsi: {
-        type: Sequelize.STRING
-      },
-      foto_pendukung: {
-        type: Sequelize.STRING
-      },
-      video_pendukung: {
-        type: Sequelize.STRING
-      },
-      jumlah_pendanaan: {
+      city_id: {
         type: Sequelize.INTEGER
       },
-      durasi: {
+      province_id: {
         type: Sequelize.INTEGER
       },
-      latar_belakang: {
-        type: Sequelize.TEXT
-      },
-      foto_latar_belakang: {
+      image: {
         type: Sequelize.STRING
       },
-      misi_pendanaan: {
-        type: Sequelize.TEXT
-      },
-      foto_misi: {
+      video: {
         type: Sequelize.STRING
       },
-      tantangan_pendanaan: {
-        type: Sequelize.TEXT
+      amount: {
+        type: Sequelize.INTEGER
       },
-      foto_tantangan: {
-        type: Sequelize.STRING
-      },
-      resiko_pendanaan: {
-        type: Sequelize.TEXT
-      },
-      foto_resiko: {
-        type: Sequelize.STRING
+      duration: {
+        type: Sequelize.INTEGER
       },
       user_id: {
         type: Sequelize.INTEGER
       },
-      kategori_id: {
+      category_id: {
         type: Sequelize.INTEGER
       },
       flag_active: {
@@ -77,6 +53,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Inovasi');
+    await queryInterface.dropTable('Inovations');
   }
 };

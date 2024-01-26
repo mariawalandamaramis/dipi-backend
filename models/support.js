@@ -3,17 +3,20 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Dukungan extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class Support extends Model {
     static associate(models) {
-      // define association here
+      Support.belongsTo(models.User, {
+        foreignKey: 'giver_id',
+        as: 'giver',
+      });
+      Support.belongsTo(models.Inovation, {
+        foreignKey: 'inovation_id',
+        as: 'support',
+      });
     }
+    
   }
-  Dukungan.init({
+  Support.init({
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -26,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Dukungan',
+    modelName: 'Support',
   });
-  return Dukungan;
+  return Support;
 };

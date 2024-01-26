@@ -3,28 +3,29 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Artikel extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class Article extends Model {
     static associate(models) {
-      // define association here
+      Article.belongsTo(models.Inovation, {
+        foreignKey: 'inovation_id',
+        as: 'inovation',
+      });
     }
   }
-  Artikel.init({
+  Article.init({
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    deskripsi: DataTypes.TEXT,
+    inovation_id:{
+      type: DataTypes.INTEGER
+    },
+    description: DataTypes.TEXT,
     flag_active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
-    foto_artikel: DataTypes.STRING,
+    article_image: DataTypes.STRING,
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
@@ -35,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Artikel',
+    modelName: 'Article',
   });
-  return Artikel;
+  return Article;
 };

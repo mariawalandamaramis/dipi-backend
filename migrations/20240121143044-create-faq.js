@@ -9,15 +9,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      pertanyaan: {
+      question: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      jawaban: {
+      answer: {
         allowNull: false,
         type: Sequelize.TEXT
       },
-      inovasi_id: {
+      inovation_id: {
         type: Sequelize.INTEGER
       },
       createdAt: {
