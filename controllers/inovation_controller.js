@@ -1,13 +1,66 @@
 const { Inovation } = require('../models');
 
+const uploadImage = async (req, res) => {
+    try {
+        if (!req.file.path) {
+            return res.status(req.err.code).json({
+                code: req.err.code,
+                message: req.err,
+                data: null
+            })
+        }
+        const imageUrl = req.file.path;
+        return res.status(201).json({
+            code: 201,
+            message: "Upload success",
+            data: imageUrl
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            code: 500,
+            message: 'Internal server error',
+            data: null
+        });
+    }
+};
+
+const uploadVideo = async (req, res) => {
+    try {
+        if (!req.file.path) {
+            return res.status(req.err.code).json({
+                code: req.err.code,
+                message: req.err,
+                data: null
+            })
+        }
+        const videoUrl = req.file.path;
+        return res.status(201).json({
+            code: 201,
+            message: "Upload success",
+            data: videoUrl
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            code: 500,
+            message: 'Internal server error',
+            data: null
+        });
+    }
+};
+
 const createInovation = async (req, res) => {
     try {
-        const image = req.file.path;
         const {
             inovation_name,
             description,
             province_id,
             city_id,
+            image,
+            video,
             amount,
             duration,
             category_id,
@@ -19,6 +72,7 @@ const createInovation = async (req, res) => {
             province_id,
             city_id,
             image,
+            video,
             amount,
             user_id: userId,
             duration,
@@ -100,18 +154,17 @@ const getInovationById = async (req, res) => {
 
 const updateInovation = async (req, res) => {
     try {
-        const image = req.file.path;
-        // const video = req.video.path;
         const userId = req.user.userId;
         const {
             inovation_name,
             description,
-            city,
             province_id,
             city_id,
+            image,
+            video,
             amount,
             duration,
-            category_id } = req.body;
+            category_id, } = req.body;
         const inovation = await Inovation.findByPk(req.params.id);
         if (!inovation) {
             return res.status(404).json({
@@ -124,18 +177,18 @@ const updateInovation = async (req, res) => {
             await inovation.update({
                 inovation_name,
                 description,
-                city,
                 province_id,
                 city_id,
                 image,
+                video,
                 amount,
                 duration,
-                category_id
+                category_id,
             });
             res.json({
                 code: 200,
                 message: 'Inovation updated successfully',
-                data: null
+                data: inovation
             });
         } else {
             res.json({
@@ -165,9 +218,9 @@ const deleteInovation = async (req, res) => {
                 data: null
             });
         }
-        if (inovation.id == userId) {
+        if (inovation.user_id == userId) {
             await inovation.update({
-                flag_active:false
+                flag_active: false
             });
             res.json({
                 code: 200,
@@ -197,4 +250,6 @@ module.exports = {
     getInovationById,
     updateInovation,
     deleteInovation,
+    uploadImage,
+    uploadVideo
 };

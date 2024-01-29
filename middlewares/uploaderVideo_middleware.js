@@ -15,28 +15,33 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'uploads', // Folder name in Cloudinary where the uploaded files will be stored
-    allowed_formats: ['jpg', 'jpeg', 'png'], // Allowed file formats
-    transformation: [{ width: 500, height: 500, crop: 'limit' }] // Optional transformations
+    allowed_formats: ['mp4'], // Allowed file formats
+    resource_type: 'video', // Specify resource type as 'video'
+    // Optional transformations
   }
 });
 
 // Create Multer instance
 const multerUpload = multer({ storage: storage });
 
-// Middleware function for file uploading
-const uploadMiddleware = (req, res, next) => {
-  multerUpload.single('file')(req, res, (err) => {
+// Middleware function for video uploading
+// Middleware function for video uploading
+const uploadVideoMiddleware = (req, res, next) => {
+  console.log("secret:",process.env.COUDINARY_SECRET_KEY);
+  multerUpload.single('video')(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       // Multer error occurred (e.g., file size limit exceeded)
-      console.log("sini",err.message);
+      console.log("Multer error:", err);
       return res.status(400).json({ error: err.message });
     } else if (err) {
       // Other error occurred
-      return res.status(500).json({ error: 'Something went wrong' });
+      console.log("Other error:", err);
+      return res.status(500).json({ error: err.message });
     }
     // File uploaded successfully
     next();
   });
 };
 
-module.exports = {uploadMiddleware};
+
+module.exports = { uploadVideoMiddleware };

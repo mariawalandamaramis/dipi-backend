@@ -4,10 +4,12 @@ const routes = require('./user_route');
 const categoryRoutes = require('./category_route');
 const inovationRoutes = require('./inovation_route');
 const packageRoutes = require('./package_route');
+const articleRoutes = require('./article_route')
 
-app.use('/users', routes); // Set up your routes under '/api'
+app.use('/users', routes); 
 app.use('/category', categoryRoutes);
 app.use('/inovation', inovationRoutes);
 app.use('/package', packageRoutes);
+app.use('/article', articleRoutes);
 
 module.exports = app;

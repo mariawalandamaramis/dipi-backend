@@ -1,11 +1,11 @@
-const { DonationPackage, Inovation } = require('../models');
+const { Article, Inovation } = require('../models');
 
-// Controller to create new DonationPackage
-const createDonationPackage = async (req, res) => {
+// Controller to create new Article
+const createArticle = async (req, res) => {
     try {
-        const { inovation_id, package_name, nominal, description } = req.body;
+        const { inovation_id, description } = req.body;
+        const article_image = req.file.path;
         const inovation = await Inovation.findByPk(inovation_id);
-        console.log("tes :", req.user);
         if (!inovation) {
             return res.status(404).json({
                 code: 404,
@@ -20,16 +20,16 @@ const createDonationPackage = async (req, res) => {
                 data: null
             });
         }
-        const newDonationPackage = await DonationPackage.create({
+        const newArticle = await Article.create({
             inovation_id,
-            package_name,
-            nominal,
-            description
+            description,
+            flag_active : true,
+            article_image
         });
         return res.status(201).json({
             code: 201,
-            message: 'Donation Package created successfully',
-            data: newDonationPackage
+            message: 'Article created successfully',
+            data: newArticle
         });
     } catch (error) {
         console.error(error);
@@ -41,19 +41,19 @@ const createDonationPackage = async (req, res) => {
     }
 };
 
-// Controller to get DonationPackage by Inovation ID
-const getDonationPackageByInovationId = async (req, res) => {
+// Controller to get Article by Inovation ID
+const getArticleByInovationId = async (req, res) => {
     try {
-        let packages;
+        let articles;
         const { inovation_id } = req.query;
 
         if (inovation_id) {
-            packages = await DonationPackage.findAll({ where: { inovation_id: inovation_id } });
+            articles = await Article.findAll({ where: { inovation_id: inovation_id, flag_active: true } });
         }
         return res.status(200).json({
             code: 200,
-            message: 'Get Packages Success',
-            data: packages
+            message: 'Get Articles Success',
+            data: articles
         });
     } catch (error) {
         console.error(error);
@@ -65,10 +65,11 @@ const getDonationPackageByInovationId = async (req, res) => {
     }
 };
 
-// Controller to update DonationPackage
-const updateDonationPackage = async (req, res) => {
+// Controller to update Articles
+const updateArticle = async (req, res) => {
     try {
-        const { inovation_id, package_name, nominal, description } = req.body;
+        const { inovation_id, description } = req.body;
+        const article_image = req.file.path;
         const inovation = await Inovation.findByPk(inovation_id);
         if (!inovation) {
             return res.status(404).json({
@@ -84,24 +85,23 @@ const updateDonationPackage = async (req, res) => {
                 data: null
             });
         }
-        const package = await DonationPackage.findByPk(req.params.id);
-        if (!package) {
+        const article = await Article.findByPk(req.params.id);
+        if (!article) {
             return res.status(404).json({
                 code: 404,
-                message: 'package not found',
+                message: 'Article not found',
                 data: null
             });
         }
-        await package.update({
+        await article.update({
             inovation_id,
-            package_name,
-            nominal,
-            description
+            description,
+            article_image
         });
         return res.json({
             code: 200,
-            message: 'package updated successfully',
-            data: package
+            message: 'Article updated successfully',
+            data: article
         });
     } catch (error) {
         console.error(error);
@@ -113,10 +113,10 @@ const updateDonationPackage = async (req, res) => {
     }
 };
 
-// Controller to delete DonationPackage
-const deleteDonationPackage = async (req, res) => {
+// Controller to delete Article
+const deleteArticle = async (req, res) => {
     try {
-        const package = await DonationPackage.findByPk(req.params.id);
+        const article = await Article.findByPk(req.params.id);
         const inovation = await Inovation.findByPk(req.params.inovation_id);
         if (!inovation) {
             return res.status(404).json({
@@ -132,17 +132,19 @@ const deleteDonationPackage = async (req, res) => {
                 data: null
             });
         }
-        if (!package) {
+        if (!article) {
             return res.status(404).json({
                 code: 404,
-                message: 'Package not found',
+                message: 'Article not found',
                 data: null
             });
         }
-        await package.destroy();
+        await article.update({
+            flag_active: false
+        });
         return res.json({
             code: 200,
-            message: 'Package deleted successfully',
+            message: 'Article deleted successfully',
             data: null
         });
     } catch (error) {
@@ -156,8 +158,8 @@ const deleteDonationPackage = async (req, res) => {
 };
 
 module.exports = {
-    createDonationPackage,
-    getDonationPackageByInovationId,
-    updateDonationPackage,
-    deleteDonationPackage
+    createArticle,
+    getArticleByInovationId,
+    updateArticle,
+    deleteArticle
 };
