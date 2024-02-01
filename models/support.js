@@ -23,6 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     nominal: DataTypes.INTEGER,
+    inovation_id : DataTypes.INTEGER,
+    giver_id : DataTypes.INTEGER,
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
