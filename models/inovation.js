@@ -15,15 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       });
       Inovation.hasMany(models.Support, {
         foreignKey: 'inovation_id',
-        as: 'Support',
+        as: 'support',
       });
       Inovation.hasMany(models.DonationPackage, {
         foreignKey: 'inovation_id',
         as: 'package',
-      });
-      Inovation.hasMany(models.Faq, {
-        foreignKey: 'inovation_id',
-        as: 'faq',
       });
       Inovation.belongsTo(models.Category, {
         foreignKey: 'category_id',
