@@ -1,8 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models'); // Import your User model
-const { where } = require('sequelize');
-const { use } = require('../routes');
 require('dotenv').config();
 
 const register = async (req, res) => {
@@ -112,10 +110,9 @@ const updateUser = async (req, res) => {
   }
 };
 
-const getUser = async (req, res) => {
+const getUserById = async (req, res) => {
   try {
-    const userId = req.user.userId;
-    const user = await User.findByPk(userId);
+    const user = await User.findOne({ where: { id: req.params.id } });
     res.json({
       code: 200,
       message: 'User found',
@@ -131,4 +128,22 @@ const getUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, updateUser, getUser };
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.findAll()
+    return res.status(200).json({
+      code: 200,
+      message: 'Users found',
+      data: users
+    });
+  } catch(error) {
+    console.log(error);
+    return res.status(500).json({
+      code: 500,
+      message: 'internal server error',
+      data: null
+    });
+  }
+}
+
+module.exports = { register, login, updateUser, getUserById, getUsers };
