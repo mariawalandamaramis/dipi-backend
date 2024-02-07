@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       Inovation.hasMany(models.Support, {
         foreignKey: 'inovation_id',
-        as: 'support',
+        as: 'supports',
       });
       Inovation.hasMany(models.DonationPackage, {
         foreignKey: 'inovation_id',
@@ -24,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       Inovation.belongsTo(models.Category, {
         foreignKey: 'category_id',
         as: 'category',
-      });
-      Inovation.belongsTo(models.Province, {
-        foreignKey: 'province_id',
-        as: 'province',
       });
       Inovation.belongsTo(models.City, {
         foreignKey: 'city_id',
@@ -46,11 +42,11 @@ module.exports = (sequelize, DataTypes) => {
     inovation_name: DataTypes.STRING,
     description: DataTypes.TEXT,
     city_id: DataTypes.INTEGER,
-    province_id: DataTypes.INTEGER,
     image: DataTypes.STRING,
     video: DataTypes.STRING,
     amount: DataTypes.INTEGER,
     duration: DataTypes.INTEGER,
+    total_support: DataTypes.INTEGER,
     flag_active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,

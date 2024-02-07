@@ -1,10 +1,8 @@
 const { Article, Inovation } = require('../models');
 
-// Controller to create new Article
 const createArticle = async (req, res) => {
     try {
-        const { inovation_id, description } = req.body;
-        const article_image = req.file.path;
+        const { inovation_id, description, title } = req.body;
         const inovation = await Inovation.findByPk(inovation_id);
         if (!inovation) {
             return res.status(404).json({
@@ -24,7 +22,7 @@ const createArticle = async (req, res) => {
             inovation_id,
             description,
             flag_active : true,
-            article_image
+            title
         });
         return res.status(201).json({
             code: 201,
@@ -41,7 +39,6 @@ const createArticle = async (req, res) => {
     }
 };
 
-// Controller to get Article by Inovation ID
 const getArticleByInovationId = async (req, res) => {
     try {
         let articles;
@@ -65,11 +62,9 @@ const getArticleByInovationId = async (req, res) => {
     }
 };
 
-// Controller to update Articles
 const updateArticle = async (req, res) => {
     try {
-        const { inovation_id, description } = req.body;
-        const article_image = req.file.path;
+        const { inovation_id, description, title } = req.body;
         const inovation = await Inovation.findByPk(inovation_id);
         if (!inovation) {
             return res.status(404).json({
@@ -96,7 +91,7 @@ const updateArticle = async (req, res) => {
         await article.update({
             inovation_id,
             description,
-            article_image
+            title
         });
         return res.json({
             code: 200,
@@ -113,7 +108,6 @@ const updateArticle = async (req, res) => {
     }
 };
 
-// Controller to delete Article
 const deleteArticle = async (req, res) => {
     try {
         const article = await Article.findByPk(req.params.id);

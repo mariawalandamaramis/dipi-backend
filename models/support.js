@@ -11,7 +11,11 @@ module.exports = (sequelize, DataTypes) => {
       });
       Support.belongsTo(models.Inovation, {
         foreignKey: 'inovation_id',
-        as: 'support',
+        as: 'supports',
+      });
+      Support.belongsTo(models.DonationPackage, {
+        foreignKey: 'package_id',
+        as: 'packageDonate',
       });
     }
     
@@ -25,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     nominal: DataTypes.INTEGER,
     inovation_id : DataTypes.INTEGER,
     giver_id : DataTypes.INTEGER,
+    package_id : DataTypes.INTEGER,
+    fee : DataTypes.INTEGER,
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,

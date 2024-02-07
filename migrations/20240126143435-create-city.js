@@ -12,8 +12,8 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      province_id: {
-        type: Sequelize.INTEGER
+      province: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

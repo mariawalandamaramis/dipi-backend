@@ -31,6 +31,12 @@ module.exports = {
       profile: {
         type: Sequelize.STRING
       },
+      address: {
+        type: Sequelize.TEXT
+      },
+      phone: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

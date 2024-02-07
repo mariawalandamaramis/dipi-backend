@@ -18,6 +18,9 @@ module.exports = {
       description: {
         type: Sequelize.TEXT
       },
+      souvenir: {
+        type: Sequelize.STRING
+      },
       inovation_id: {
         type: Sequelize.INTEGER
       },

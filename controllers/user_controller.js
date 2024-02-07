@@ -1,13 +1,12 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models'); // Import your User model
+const { User } = require('../models');
 require('dotenv').config();
 
 const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const existingUser = await User.findOne({ where: { email } });
-
     if (existingUser) {
       return res.status(400).json({
         code: 400,
@@ -15,7 +14,6 @@ const register = async (req, res) => {
         data: null
       });
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({
       name,
@@ -78,10 +76,8 @@ const updateUser = async (req, res) => {
   try {
 
     const profile = req.file.path;
-    console.log(profile);
     const userId = req.user.userId;
-    console.log(userId);
-    const { location, bio } = req.body;
+    const { location, bio, address, phone } = req.body;
 
     const user = await User.findByPk(userId);
 
@@ -93,7 +89,7 @@ const updateUser = async (req, res) => {
       });
     }
 
-    await user.update({ location, bio, profile });
+    await user.update({ location, bio, profile, address, phone });
 
     res.json({
       code: 200,
@@ -136,7 +132,7 @@ const getUsers = async (req, res) => {
       message: 'Users found',
       data: users
     });
-  } catch(error) {
+  } catch (error) {
     console.log(error);
     return res.status(500).json({
       code: 500,
