@@ -76,12 +76,9 @@ const login = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-
-    const profile = req.file.path;
-    console.log(profile);
     const userId = req.user.userId;
     console.log(userId);
-    const { location, bio } = req.body;
+    const { location, bio, profile } = req.body;
 
     const user = await User.findByPk(userId);
 
