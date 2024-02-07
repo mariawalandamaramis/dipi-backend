@@ -18,9 +18,6 @@ module.exports = {
       city_id: {
         type: Sequelize.INTEGER
       },
-      province_id: {
-        type: Sequelize.INTEGER
-      },
       image: {
         type: Sequelize.STRING
       },
@@ -41,6 +38,9 @@ module.exports = {
       },
       flag_active: {
         type: Sequelize.BOOLEAN
+      },
+      total_support: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

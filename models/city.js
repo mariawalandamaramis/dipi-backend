@@ -9,15 +9,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'city_id',
         as: 'city',
       });
-      City.belongsTo(models.Province, {
-        foreignKey: 'province_id',
-        as: 'prov',
-      });
     }
   }
   City.init({
     name: DataTypes.STRING,
-    province_id: DataTypes.INTEGER
+    province: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'City',

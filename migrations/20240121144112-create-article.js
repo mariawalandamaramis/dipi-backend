@@ -9,14 +9,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      title: {
+        type: Sequelize.STRING
+      },
       description: {
         type: Sequelize.TEXT
       },
       flag_active: {
         type: Sequelize.BOOLEAN
-      },
-      article_image: {
-        type: Sequelize.STRING
       },
       inovation_id: {
         type: Sequelize.INTEGER

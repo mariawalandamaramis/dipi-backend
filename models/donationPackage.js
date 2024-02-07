@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'inovation_id',
         as: 'package',
       });
+      DonationPackage.hasMany(models.Support, {
+        foreignKey: 'package_id',
+        as: 'packageDonate',
+      });
     }
   }
   DonationPackage.init({
@@ -21,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     package_name: DataTypes.STRING,
     nominal: DataTypes.INTEGER,
     description: DataTypes.TEXT,
+    souvenir: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'DonationPackage',

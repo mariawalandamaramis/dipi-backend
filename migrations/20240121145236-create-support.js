@@ -18,9 +18,15 @@ module.exports = {
       giver_id: {
         type: Sequelize.INTEGER
       },
+      package_id: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      fee: {
+        type: Sequelize.INTEGER
       },
       updatedAt: {
         allowNull: false,

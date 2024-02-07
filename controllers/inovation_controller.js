@@ -1,4 +1,4 @@
-const { Inovation } = require('../models');
+const { Inovation, DonationPackage } = require('../models');
 
 const uploadImage = async (req, res) => {
     try {
@@ -57,19 +57,22 @@ const createInovation = async (req, res) => {
         const {
             inovation_name,
             description,
-            province_id,
             city_id,
             image,
             video,
             amount,
             duration,
             category_id,
+            package_names, 
+            package_nominals, 
+            package_descriptions, 
+            package_souvenirs, 
         } = req.body;
         const userId = req.user.userId;
+        
         const newInovation = await Inovation.create({
             inovation_name,
             description,
-            province_id,
             city_id,
             image,
             video,
@@ -79,10 +82,26 @@ const createInovation = async (req, res) => {
             category_id,
             flag_active: true
         });
+
+        const createdPackages = [];
+        for (let i = 0; i < 3; i++) {
+            const newPackage = await DonationPackage.create({
+                inovation_id: newInovation.id, 
+                package_name: package_names[i], 
+                nominal: package_nominals[i], 
+                description: package_descriptions[i], 
+                souvenir: package_souvenirs[i], 
+            });
+            createdPackages.push(newPackage);
+        }
+
         res.status(201).json({
             code: 201,
-            message: 'Create inovation successfully',
-            data: newInovation
+            message: 'Create innovation and donation packages successfully',
+            data: {
+                innovation: newInovation,
+                packages: createdPackages
+            }
         });
     } catch (error) {
         console.error(error);
@@ -97,14 +116,12 @@ const createInovation = async (req, res) => {
 const getInovations = async (req, res) => {
     try {
         let inovations;
-        const { user_id, category_id, province_id, city_id, sort } = req.query;
+        const { user_id, category_id, city_id, sort } = req.query;
 
         if (user_id) {
             inovations = await Inovation.findAll({ where: { user_id: user_id, flag_active: true } });
         } else if (category_id) {
             inovations = await Inovation.findAll({ where: { category_id: category_id, flag_active: true } });
-        } else if (province_id) {
-            inovations = await Inovation.findAll({ where: { province_id: province_id, flag_active: true } });
         } else if (city_id) {
             inovations = await Inovation.findAll({ where: { city_id: city_id, flag_active: true } });
         } else if (sort === 'latest') {
@@ -158,13 +175,17 @@ const updateInovation = async (req, res) => {
         const {
             inovation_name,
             description,
-            province_id,
             city_id,
             image,
             video,
             amount,
             duration,
-            category_id, } = req.body;
+            category_id,
+            package_names, 
+            package_nominals, 
+            package_descriptions, 
+            package_souvenirs, 
+        } = req.body;
         const inovation = await Inovation.findByPk(req.params.id);
         if (!inovation) {
             return res.status(404).json({
@@ -177,7 +198,6 @@ const updateInovation = async (req, res) => {
             await inovation.update({
                 inovation_name,
                 description,
-                province_id,
                 city_id,
                 image,
                 video,
@@ -185,9 +205,20 @@ const updateInovation = async (req, res) => {
                 duration,
                 category_id,
             });
+
+            const donationPackages = await DonationPackage.findAll({ where: { inovation_id: inovation.id } });
+            for (let i = 0; i < donationPackages.length; i++) {
+                await donationPackages[i].update({
+                    package_name: package_names[i], 
+                    nominal: package_nominals[i], 
+                    description: package_descriptions[i], 
+                    souvenir: package_souvenirs[i], 
+                });
+            }
+
             res.json({
                 code: 200,
-                message: 'Inovation updated successfully',
+                message: 'Inovation and Donation Packages updated successfully',
                 data: inovation
             });
         } else {
@@ -206,6 +237,7 @@ const updateInovation = async (req, res) => {
         });
     }
 };
+
 
 const deleteInovation = async (req, res) => {
     try {
