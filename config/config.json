@@ -1,23 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "dheaanggita",
-    "database": "dipi_dev",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "dipi_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "dipi_prod",
-    "host": "127.0.0.1",
+    "username": "freedb_dipidev",
+    "password": "6PGPS5qmxSBehY#",
+    "database": "freedb_dipi_dev",
+    "host": "sql.freedb.tech",
     "dialect": "mysql"
   }
 }
