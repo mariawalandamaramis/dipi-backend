@@ -1,9 +1,0 @@
-{
-  "development": {
-    "username": "freedb_dipidev",
-    "password": "6PGPS5qmxSBehY#",
-    "database": "freedb_dipi_dev",
-    "host": "sql.freedb.tech",
-    "dialect": "mysql"
-  }
-}
